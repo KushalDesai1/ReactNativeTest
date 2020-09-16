@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "622816545250",
+    "firebase_url": "https://xcalibertest-7c8c7.firebaseio.com",
+    "project_id": "xcalibertest-7c8c7",
+    "storage_bucket": "xcalibertest-7c8c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622816545250:android:c4a33e19959a0a2a0b91bb",
+        "android_client_info": {
+          "package_name": "com.xcaliber.test.newsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "622816545250-5b0tsoj62d03d8nnb86s8a5urt0fvuq9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.xcaliber.test.newsapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "622816545250-qc7ritfpbtnc5sti1r2k6a2jesiuce63.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAURm2s4Ibz9lSNRF1owDc_Hr32YvbjuP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "622816545250-qc7ritfpbtnc5sti1r2k6a2jesiuce63.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
