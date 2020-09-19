@@ -15,6 +15,7 @@ import ProgressiveImage from '../components/ProgressiveImage/ProgressiveImage';
 import AppColor from '../utils/AppColor';
 import AppFonts from '../utils/AppFonts';
 import AsyncStorage from '@react-native-community/async-storage';
+import AppImage from '../utils/AppImage';
 
 const URL = "https://www.redbytes.in/";
 
@@ -117,11 +118,11 @@ const DrawerContent = (props) => {
         <Drawer.Section>
           <DrawerItem
             icon={() => (
-              <Image source={require('../assets/images/home_black.png')}
+              <Image source={AppImage.ic_home}
                 style={DrawerStyles.icon}
               />
             )}
-            activeTintColor='purple'
+            activeTintColor={AppColor.headerBg}
             focused={getActiveRouteState(
               props.state.routes,
               props.state.index,

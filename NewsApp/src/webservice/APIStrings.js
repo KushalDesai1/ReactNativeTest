@@ -1,7 +1,8 @@
 
-const baseURL = 'https://softbreaksapi.azurewebsites.net/api/JobPosts/'
+const baseURL = 'https://chroniclingamerica.loc.gov/search/'
 
 const APIStrings = {
+  newsListAPI: baseURL + 'titles/results/?year1=1900&year2=2019&rows=20&format=json'
   
 };
 

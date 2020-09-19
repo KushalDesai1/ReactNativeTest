@@ -1,5 +1,6 @@
 import AppFonts from "../utils/AppFonts";
 import {Dimensions} from 'react-native';
+import AppColor from "../utils/AppColor";
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
@@ -20,7 +21,7 @@ const DrawerStyles = {
     height: 70, 
     borderRadius:50,
     borderWidth: 2,
-    borderColor: 'rgba(255, 0, 0, 0.3)'
+    borderColor: AppColor.headerBg
   },
   profileName: {
     fontSize: DEVICE_WIDTH*0.045,

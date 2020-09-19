@@ -6,8 +6,9 @@ const AppColor = {
   black: '#000000',
   grey: '#A4B0BD',
   lightGrey: '#C0C0C0',
-  headerBg: '#9641E5',
+  headerBg: '#3498DB',
   headerText: 'purple',
+  newsTitle: '#0A3D62',
   skillText: '#9641E5',
   greyText: '#7B8788',
   separatorColor: '#DAE0E2'
