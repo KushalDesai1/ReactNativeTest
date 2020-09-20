@@ -19,9 +19,9 @@ import APIStrings from '../../webservice/APIStrings';
 import AppColor from '../../utils/AppColor';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AppFonts from '../../utils/AppFonts';
+import Loader from '../../components/Loader/Loader';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -110,9 +110,15 @@ class Dashboard extends React.Component {
     });
   };
 
+  gotoNewsDetailScreen = (newsDetail) => {
+    this.props.navigation.navigate('NewsDetails', {
+      newsDetail,
+    });
+  };
+
   renderNewsList = (item, index) => {
     return (
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity onPress={() => this.gotoNewsDetailScreen(item)}>
         <View style={{marginVertical: 10}}>
           <Text
             style={{
@@ -127,43 +133,47 @@ class Dashboard extends React.Component {
               {item.end_year}
             </Text>
           </Text>
+          <View style={{flexDirection: 'row', width: DEVICE_WIDTH - 40}}>
+            <Text>URL: </Text>
+            <Text style={{textDecorationLine: 'underline'}}>{item.url}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
   };
 
   renderFlatlist = () => {
-    return(
+    return (
       <FlatList
-          style={{marginHorizontal: 10, marginTop: 10}}
-          data={this.state.newsList}
-          extraData={this.state.newsList}
-          initialNumToRender={20}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({item, index}) => this.renderNewsList(item, index)}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isLoading}
-              onRefresh={() => this.onRefresh()}
-              colors={[AppColor.headerBg]}
-            />
+        style={{marginHorizontal: 10, marginTop: 10}}
+        data={this.state.newsList}
+        extraData={this.state.newsList}
+        initialNumToRender={20}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({item, index}) => this.renderNewsList(item, index)}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isLoading}
+            onRefresh={() => this.onRefresh()}
+            colors={[AppColor.headerBg]}
+          />
+        }
+        ItemSeparatorComponent={() => this.renderSeparator()}
+        ListFooterComponent={() => this.renderFooter()}
+        onEndReachedThreshold={0.5}
+        onEndReached={() => {
+          if (!this.onEndReachedCalledDuringMomentum) {
+            this.handleLoadMore(); // LOAD MORE DATA
+            this.onEndReachedCalledDuringMomentum = true;
           }
-          ItemSeparatorComponent={() => this.renderSeparator()}
-          ListFooterComponent={() => this.renderFooter()}
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            if (!this.onEndReachedCalledDuringMomentum) {
-              this.handleLoadMore(); // LOAD MORE DATA
-              this.onEndReachedCalledDuringMomentum = true;
-            }
-          }}
-          onMomentumScrollBegin={() => {
-            this.onEndReachedCalledDuringMomentum = false;
-          }}
-        />
+        }}
+        onMomentumScrollBegin={() => {
+          this.onEndReachedCalledDuringMomentum = false;
+        }}
+      />
     );
-  }
+  };
 
   searchNewsList = (text) => {
     const newData = this.arrayholder.filter((item) => {
@@ -216,7 +226,6 @@ class Dashboard extends React.Component {
   };
 
   renderFooter = () => {
-    //it will show indicator at the bottom of the list when data is loading otherwise it returns null
     return (
       <View style={DashboardStyles.footer}>
         {this.state.isRefreshing ? (
@@ -233,25 +242,16 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      // eslint-disable-next-line react-native/no-inline-styles
       <SafeAreaView style={{flex: 1}}>
         <HeaderComponent
           title="Dashboard"
           menu={true}
           handleDrawer={() => this.toggleDrawer()}
         />
-        
-        {this.renderSearchView()}
-        {this.state.isLoading ? (
-          <ActivityIndicator
-            size="large"
-            color={AppColor.headerBg}
-            animating={this.state.isLoading}
-          />
-        ) : null}
 
+        {this.renderSearchView()}
+        <Loader loading={this.state.isLoading} />
         {this.renderFlatlist()}
-        
       </SafeAreaView>
     );
   }

@@ -4,4 +4,4 @@ const AppStyles = {
   }
 }
 
-export default AppStyles
+export default AppStyles;

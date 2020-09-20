@@ -12,6 +12,7 @@ import DrawerContent from './screens/DrawerContent';
 // importing screen
 import Login from './screens/Login/Login';
 import Dashboard from './screens/Dashboard/Dashboard';
+import NewsDetails from './screens/NewsDetails/NewsDetails';
 
 const AuthStack = createStackNavigator();
 const DashboardStack = createStackNavigator();
@@ -30,6 +31,7 @@ const DashboardStackScreen = () => {
   return (
     <DashboardStack.Navigator headerMode="none">
       <DashboardStack.Screen name="Dashboard" component={Dashboard} />
+      <DashboardStack.Screen name="NewsDetails" component={NewsDetails}/>
     </DashboardStack.Navigator>
   )
 }
@@ -39,9 +41,6 @@ const DrawerScreen = () => {
     <Drawer.Navigator
       drawerType="back"
       drawerContent={props => <DrawerContent {...props} />}
-      drawerContentOptions={{
-        activeTintColor: '#e91e63',
-      }}
     >
       <Drawer.Screen name="DashboardStack" component={DashboardStackScreen} />
       {/* <Drawer.Screen name="AboutUs" component={AboutUs} /> */}
