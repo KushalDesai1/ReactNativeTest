@@ -1,9 +1,8 @@
 import 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import AsyncStorage from '@react-native-community/async-storage';
 import { useSelector } from 'react-redux';
 
 // importing Drawer content
@@ -13,6 +12,8 @@ import DrawerContent from './screens/DrawerContent';
 import Login from './screens/Login/Login';
 import Dashboard from './screens/Dashboard/Dashboard';
 import NewsDetails from './screens/NewsDetails/NewsDetails';
+import SearchArticle from './screens/SearchArticle/SearchArticle';
+import ArticleDetails from './screens/SearchArticle/ArticleDetails';
 
 const AuthStack = createStackNavigator();
 const DashboardStack = createStackNavigator();
@@ -32,6 +33,8 @@ const DashboardStackScreen = () => {
     <DashboardStack.Navigator headerMode="none">
       <DashboardStack.Screen name="Dashboard" component={Dashboard} />
       <DashboardStack.Screen name="NewsDetails" component={NewsDetails}/>
+      <DashboardStack.Screen name="SearchArticle" component={SearchArticle}/>
+      <DashboardStack.Screen name="ArticleDetails" component={ArticleDetails}/>
     </DashboardStack.Navigator>
   )
 }

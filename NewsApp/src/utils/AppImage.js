@@ -5,6 +5,7 @@ const AppImage = {
   ic_home: require('../assets/images/home_black.png'),
   menu: require('../assets/images/menu.png'),
   logout: require('../assets/images/logout.png'),
+  rightArrow: require('../assets/images/rightArrow.png')
 };
 
 export default AppImage;

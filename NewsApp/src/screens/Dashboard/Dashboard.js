@@ -30,7 +30,6 @@ class Dashboard extends React.Component {
     this.onEndReachedCalledDuringMomentum = false;
     this.arrayholder = [];
     this.state = {
-      page: 1,
       isLoading: true,
       isRefreshing: false,
       newsList: [],
@@ -46,11 +45,11 @@ class Dashboard extends React.Component {
     this.props.navigation.dispatch(DrawerActions.openDrawer());
   };
 
-  getNewsList = (pageIndex) => {
+  getNewsList = () => {
     axios
       .get(APIStrings.newsListAPI, {
         params: {
-          page: pageIndex,
+          page: this.page,
         },
       })
       .then((response) => {
@@ -106,7 +105,7 @@ class Dashboard extends React.Component {
 
   onRefresh = () => {
     this.setState({isLoading: true, page: 1, newsList: []}, () => {
-      this.getNewsList();
+      this.getNewsList(this.page);
     });
   };
 
@@ -128,14 +127,24 @@ class Dashboard extends React.Component {
               color: AppColor.newsTitle,
             }}>
             {index + 1}.{'  '}
-            <Text style={{textDecorationLine: 'underline'}}>
+            <Text
+              style={{
+                textDecorationLine: 'underline',
+                fontFamily: AppFonts.regular,
+              }}>
               {item.title} ({item.place_of_publication}) {item.start_year}-
               {item.end_year}
             </Text>
           </Text>
-          <View style={{flexDirection: 'row', width: DEVICE_WIDTH - 40}}>
-            <Text>URL: </Text>
-            <Text style={{textDecorationLine: 'underline'}}>{item.url}</Text>
+          <View style={{flexDirection: 'row', width: DEVICE_WIDTH - 70}}>
+            <Text style={{fontFamily: AppFonts.regular}}>URL: </Text>
+            <Text
+              style={{
+                textDecorationLine: 'underline',
+                fontFamily: AppFonts.regular,
+              }}>
+              {item.url}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -190,25 +199,45 @@ class Dashboard extends React.Component {
     this.setState({newsList: newData});
   };
 
+  gotoSearchArticleScreen = () => {
+    this.props.navigation.navigate('SearchArticle');
+  };
+
   renderSearchView = () => {
     return (
-      <View style={DashboardStyles.searchView}>
-        <Icon
-          name="search"
-          size={20}
-          color={AppColor.grey}
-          style={{marginHorizontal: 10}}
-        />
-        <TextInput
-          placeholder={'Search '}
-          style={DashboardStyles.searchInput}
-          value={this.state.searchValue}
-          onChangeText={(text) => {
-            this.setState({searchValue: text}, () => {
-              this.searchNewsList(text);
-            });
-          }}
-        />
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '95%',
+          alignSelf: 'center',
+          justifyContent: 'space-around',
+        }}>
+        <View style={DashboardStyles.searchView}>
+          <Icon
+            name="search"
+            size={20}
+            color={AppColor.grey}
+            style={{marginHorizontal: 10}}
+          />
+          <TextInput
+            placeholder={'Search '}
+            style={DashboardStyles.searchInput}
+            value={this.state.searchValue}
+            onChangeText={(text) => {
+              this.setState({searchValue: text}, () => {
+                this.searchNewsList(text);
+              });
+            }}
+          />
+        </View>
+
+        <View style={DashboardStyles.searchArticleView}>
+          <TouchableOpacity onPress={() => this.gotoSearchArticleScreen()}>
+            <Text style={DashboardStyles.searchArticleText}>
+              Search{`\n`}Articles
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };

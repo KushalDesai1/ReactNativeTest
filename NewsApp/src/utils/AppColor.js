@@ -11,6 +11,7 @@ const AppColor = {
   newsTitle: '#0A3D62',
   skillText: '#9641E5',
   greyText: '#7B8788',
+  searchArticle: '#2475B0',
   separatorColor: '#DAE0E2'
 };
 

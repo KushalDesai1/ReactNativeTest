@@ -44,15 +44,29 @@ const DashboardStyles = StyleSheet.create({
   searchView: {
     padding: 5,
     borderRadius: 20,
-    margin: 10,
+    marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: AppColor.white,
+    width: '70%',
+  },
+  searchArticleView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    backgroundColor: AppColor.searchArticle,
+    width: '25%',
+    marginVertical: 10,
   },
   searchInput: {
     fontSize: 20,
     fontFamily: AppFonts.light,
     width: '100%'
+  },
+  searchArticleText: {
+    color: AppColor.white,
+    fontFamily: AppFonts.medium,
+    textAlign: 'center'
   },
 });
 
