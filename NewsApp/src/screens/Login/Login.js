@@ -5,6 +5,7 @@ import AppStyles from '../../utils/AppStyles';
 import AppFonts from '../../utils/AppFonts';
 import AppImage from '../../utils/AppImage';
 import LoginStyles from './LoginStyles';
+import * as Types from '../../redux/actionTypes';
 import {
   GoogleSignin,
   statusCodes,
@@ -106,7 +107,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: AppColor.white }}>
+      <SafeAreaView style={{ ...AppStyles.rootViewContainer, backgroundColor: AppColor.white }}>
         <View style={{ height: '60%', justifyContent: 'center', alignItems: 'center' }}>
           <Image source={AppImage.loginScreenImage}/>
         </View>
@@ -143,7 +144,7 @@ const mapStateToProps = (state) => { return {} };
 
 const mapDispatchToProps = dispatch => {
   return {
-    userLogin: () => dispatch({ type: 'IS_LOGGED_IN' })
+    userLogin: () => dispatch({ type: Types.IS_LOGGED_IN })
   }
 }
 

@@ -16,8 +16,7 @@ import AppColor from '../utils/AppColor';
 import AppFonts from '../utils/AppFonts';
 import AsyncStorage from '@react-native-community/async-storage';
 import AppImage from '../utils/AppImage';
-
-const URL = "https://www.redbytes.in/";
+import * as Types from '../redux/actionTypes';
 
 const ItemSeparator = () => {
   return <View
@@ -66,7 +65,7 @@ const DrawerContent = (props) => {
       // Remember to remove the user from your app
       AsyncStorage.removeItem('UserInfo')
         .then(() => {
-          dispatch({ type: 'IS_LOGGED_OUT' })
+          dispatch({ type: Types.IS_LOGGED_OUT })
         })
     } catch (error) {
       console.error(error);
