@@ -59,19 +59,6 @@ class Login extends React.Component {
 
   onGoogleLogin = async () => {
 
-    // let userInfo = {
-    //   user: {
-    //     name: 'Kiran Chavan',
-    //     email: 'kiran.chavan@gmail.com',
-    //     photo: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.jpg'
-    //   }
-    // }
-
-    // this.saveUserData(userInfo)
-    
-
-
-    /*===== DO NOT DELETE THIS CODE ====*/
     this.setState({
       isGoogleProcessing: true
     })
@@ -120,8 +107,8 @@ class Login extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: AppColor.white }}>
-        <View style={{ height: '60%' }}>
-          
+        <View style={{ height: '60%', justifyContent: 'center', alignItems: 'center' }}>
+          <Image source={AppImage.loginScreenImage}/>
         </View>
         <View
           style={{
