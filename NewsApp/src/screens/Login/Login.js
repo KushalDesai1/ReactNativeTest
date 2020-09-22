@@ -14,12 +14,10 @@ import AppColor from '../../utils/AppColor';
 import AsyncStorage from '@react-native-community/async-storage';
 
 class Login extends React.Component {
-
   constructor(props) {
     super();
     this.state = {
       isGoogleProcessing: false,
-      isAppleProcessing: false,
     };
   }
 
@@ -108,33 +106,22 @@ class Login extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ ...AppStyles.rootViewContainer, backgroundColor: AppColor.white }}>
-        <View style={{ height: '60%', justifyContent: 'center', alignItems: 'center' }}>
+        <View style={LoginStyles.logoView}>
           <Image source={AppImage.loginScreenImage}/>
         </View>
         <View
-          style={{
-            height: '40%',
-            alignItems: 'center',
-            backgroundColor: AppColor.headerBg,
-            borderTopLeftRadius: 50,
-            borderTopRightRadius: 50
-          }}>
-          <Text style={{
-            fontFamily: AppFonts.medium,
-            fontSize: 23, marginTop: 10, color: AppColor.white
-          }}>Login with</Text>
+          style={LoginStyles.loginView}>
+          <Text style={LoginStyles.loginText}>Login with</Text>
           {this.state.isGoogleProcessing === true ?
             <ActivityIndicator size={30} color={AppColor.white} /> :
             <TouchableOpacity onPress={() => this.onGoogleLogin()}
               style={LoginStyles.loginBtn}
               activeOpacity={0.8}>
               <Image source={AppImage.googleImage} />
-              <Text style={{ marginLeft: 10, fontSize: 20, fontFamily: AppFonts.medium }}>Google</Text>
+              <Text style={LoginStyles.googleText}>Google</Text>
             </TouchableOpacity>
           }
         </View>
-
-
       </SafeAreaView>
     );
   }

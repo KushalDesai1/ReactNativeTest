@@ -2,6 +2,8 @@ import {StyleSheet, Dimensions} from 'react-native';
 import AppColor from '../../utils/AppColor';
 import AppFonts from '../../utils/AppFonts';
 
+const DEVICE_WIDTH = Dimensions.get('window').width;
+
 const DashboardStyles = StyleSheet.create({
   appView: {
     flexDirection: 'row',
@@ -41,6 +43,12 @@ const DashboardStyles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
+  searchRootView: {
+    flexDirection: 'row',
+    width: '95%',
+    alignSelf: 'center',
+    justifyContent: 'space-around',
+  },
   searchView: {
     padding: 5,
     borderRadius: 20,
@@ -59,15 +67,20 @@ const DashboardStyles = StyleSheet.create({
     marginVertical: 10,
   },
   searchInput: {
-    fontSize: 20,
+    fontSize: DEVICE_WIDTH * 0.055,
     fontFamily: AppFonts.light,
-    width: '100%'
+    width: '100%',
   },
   searchArticleText: {
     color: AppColor.white,
     fontFamily: AppFonts.medium,
-    textAlign: 'center'
+    textAlign: 'center',
   },
+  separatorView: {
+    height: 1,
+          width: '100%',
+          backgroundColor: AppColor.lightGrey,
+  }
 });
 
 export default DashboardStyles;

@@ -73,6 +73,11 @@ const SearchArticleStyle = StyleSheet.create({
     flexWrap: 'wrap',
     fontSize: DEVICE_WIDTH * 0.038,
   },
+  pdfView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  }
 });
 
 export default SearchArticleStyle;

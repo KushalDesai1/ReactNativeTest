@@ -15,6 +15,12 @@ const NewsDetailsStyle = StyleSheet.create({
         color: AppColor.greyText,
         flexWrap: 'wrap',
         fontSize: DEVICE_WIDTH * 0.038
+    },
+    newsBulletView: {
+        width: 5,
+        height: 5,
+        backgroundColor: AppColor.headerBg,
+        marginRight: 10,
     }
   });
   

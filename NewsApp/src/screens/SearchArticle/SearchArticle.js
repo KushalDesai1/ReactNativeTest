@@ -156,7 +156,7 @@ class SearchArticle extends React.Component {
   };
 
   onRefresh = () => {
-    this.setState({isLoading: true, page: 1, newsList: []}, () => {
+    this.setState({isRefreshing: true, page: 1, newsList: []}, () => {
       this.getArticleList();
     });
   };
@@ -216,7 +216,7 @@ class SearchArticle extends React.Component {
         renderItem={({item, index}) => this.renderArticleList(item, index)}
         refreshControl={
           <RefreshControl
-            refreshing={this.state.isLoading}
+            refreshing={this.state.isRefreshing}
             onRefresh={() => this.onRefresh()}
             colors={[AppColor.headerBg]}
           />

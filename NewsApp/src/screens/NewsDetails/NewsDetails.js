@@ -44,9 +44,7 @@ class NewsDetails extends React.Component {
       });
   };
 
-  handleBackButton = () => {
-    this.props.navigation.goBack();
-  };
+  handleBackButton = () => this.props.navigation.goBack();
 
   renderTitleText = (title) => {
     return (
@@ -109,12 +107,7 @@ class NewsDetails extends React.Component {
                   style={{flexDirection: 'row', alignItems: 'center'}}
                   key={index}>
                   <View
-                    style={{
-                      width: 5,
-                      height: 5,
-                      backgroundColor: AppColor.headerBg,
-                      marginRight: 10,
-                    }}
+                    style={NewsDetailsStyle.newsBulletView}
                   />
                   <Text style={NewsDetailsStyle.newsInfoText}>
                     {item}
@@ -164,14 +157,7 @@ class NewsDetails extends React.Component {
                 <View
                   style={{flexDirection: 'row', alignItems: 'center'}}
                   key={index}>
-                  <View
-                    style={{
-                      width: 5,
-                      height: 5,
-                      backgroundColor: AppColor.headerBg,
-                      marginRight: 10,
-                    }}
-                  />
+                  <View style={NewsDetailsStyle.newsBulletView} />
                   <Text style={NewsDetailsStyle.newsInfoText}>{item}</Text>
                 </View>
               );
@@ -204,12 +190,7 @@ class NewsDetails extends React.Component {
                 style={{flexDirection: 'row', alignItems: 'center'}}
                 key={index}>
                 <View
-                  style={{
-                    width: 5,
-                    height: 5,
-                    backgroundColor: AppColor.headerBg,
-                    marginRight: 10,
-                  }}
+                  style={NewsDetailsStyle.newsBulletView}
                 />
                 <Text style={NewsDetailsStyle.newsInfoText}>{item}</Text>
               </View>
@@ -232,12 +213,7 @@ class NewsDetails extends React.Component {
                   style={{flexDirection: 'row', alignItems: 'center'}}
                   key={index}>
                   <View
-                    style={{
-                      width: 5,
-                      height: 5,
-                      backgroundColor: AppColor.headerBg,
-                      marginRight: 10,
-                    }}
+                    style={NewsDetailsStyle.newsBulletView}
                   />
                   <Text style={NewsDetailsStyle.newsInfoText}>{item}</Text>
                 </View>

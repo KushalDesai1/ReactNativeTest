@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, SafeAreaView, ScrollView} from 'react-native';
+import {View, Text, SafeAreaView, ScrollView, Dimensions} from 'react-native';
 import AppStyles from '../../utils/AppStyles';
 import HeaderComponent from '../../components/Header/HeaderComponent';
 import SearchArticleStyle from './SearchArticleStyle';
@@ -8,7 +8,9 @@ import axios from 'axios';
 import PDFView from 'react-native-view-pdf';
 import AppFonts from '../../utils/AppFonts';
 import AppColor from '../../utils/AppColor';
-// import Loader from '../../components/Loader/Loader';
+
+const DEVICE_WIDTH = Dimensions.get('window').width;
+const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 class ArticleDetails extends React.Component {
   constructor(props) {
@@ -27,23 +29,21 @@ class ArticleDetails extends React.Component {
 
   getArticleDetails = async () => {
     axios
-    .get(this.state.articleDetails.url)
-    .then((response) => {
-      let responseJson = response.data;
-      this.setState({
-        pdfURL: responseJson.pdf,
-        isLoading: false,
+      .get(this.state.articleDetails.url)
+      .then((response) => {
+        let responseJson = response.data;
+        this.setState({
+          pdfURL: responseJson.pdf,
+          isLoading: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        this.state({isLoading: false});
       });
-    })
-    .catch((error) => {
-      console.log(error);
-      this.state({isLoading: false});
-    });
   };
 
-  handleBackButton = () => {
-    this.props.navigation.goBack();
-  };
+  handleBackButton = () => this.props.navigation.goBack();
 
   renderTitleText = (title) => {
     return (
@@ -123,32 +123,36 @@ class ArticleDetails extends React.Component {
 
   renderPDF = () => {
     return (
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: 10,
-        }}>
+      <View style={SearchArticleStyle.pdfView}>
         {this.state.pdfURL && this.state.pdfURL.length > 0 ? (
           <PDFView
             fadeInDuration={250.0}
-            style={{width: 300, height: 300}}
+            style={{
+              width: '100%',
+              height: DEVICE_HEIGHT * 0.6,
+              marginHorizontal: 10,
+            }}
             resource={this.state.pdfURL}
             resourceType="url"
             onLoad={() => this.setState({isLoading: false, isPDFFound: true})}
             onError={(error) => this.setState({isPDFFound: false})}
           />
         ) : (
-          <View style={{
-            width: 300, 
-            height: 300, 
-            justifyContent: 'center', 
-            alignItems: 'center'}}>
-            <Text style={{
-              fontFamily: AppFonts.bold,
-              color: AppColor.greyText,
-              fontSize: 20
-            }}>Loading pdf...</Text>
+          <View
+            style={{
+              width: 300,
+              height: 300,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontFamily: AppFonts.bold,
+                color: AppColor.greyText,
+                fontSize: 20,
+              }}>
+              {!this.state.isPDFFound ? 'Failed to load PDF' : 'Loading pdf...'}
+            </Text>
           </View>
         )}
       </View>
@@ -163,22 +167,25 @@ class ArticleDetails extends React.Component {
           backEnabled
           handleBackpress={() => this.handleBackButton()}
         />
-        {/* <Loader loading={this.state.isLoading} /> */}
 
-        <ScrollView>
-          <View
-            style={{
-              width: '90%',
-              marginHorizontal: 10,
-              marginTop: 20,
-            }}>
-            {this.renderPDF()}
-            {this.renderTitle()}
-            {this.renderPublicationPlace()}
-            {this.renderPublisher()}
-            {this.renderPublicationDate()}
-          </View>
-        </ScrollView>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '95%',
+            alignSelf: 'center',
+            marginTop: 10
+          }}>
+          <ScrollView>
+            <View>
+              {this.renderPDF()}
+              {this.renderTitle()}
+              {this.renderPublicationPlace()}
+              {this.renderPublisher()}
+              {this.renderPublicationDate()}
+            </View>
+          </ScrollView>
+        </View>
       </SafeAreaView>
     );
   }

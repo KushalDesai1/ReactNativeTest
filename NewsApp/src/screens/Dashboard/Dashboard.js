@@ -15,6 +15,7 @@ import {DrawerActions} from '@react-navigation/native';
 import HeaderComponent from '../../components/Header/HeaderComponent';
 import DashboardStyles from './DashboardStyles';
 import axios from 'axios';
+import AppStyles from '../../utils/AppStyles';
 import APIStrings from '../../webservice/APIStrings';
 import AppColor from '../../utils/AppColor';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -199,19 +200,12 @@ class Dashboard extends React.Component {
     this.setState({newsList: newData});
   };
 
-  gotoSearchArticleScreen = () => {
-    this.props.navigation.navigate('SearchArticle');
-  };
+  gotoSearchArticleScreen = () => this.props.navigation.navigate('SearchArticle');
 
   renderSearchView = () => {
     return (
       <View
-        style={{
-          flexDirection: 'row',
-          width: '95%',
-          alignSelf: 'center',
-          justifyContent: 'space-around',
-        }}>
+        style={DashboardStyles.searchRootView}>
         <View style={DashboardStyles.searchView}>
           <Icon
             name="search"
@@ -242,17 +236,7 @@ class Dashboard extends React.Component {
     );
   };
 
-  renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: '100%',
-          backgroundColor: AppColor.lightGrey,
-        }}
-      />
-    );
-  };
+  renderSeparator = () => <View style={DashboardStyles.separatorView} />
 
   renderFooter = () => {
     return (
@@ -271,7 +255,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={AppStyles.rootViewContainer}>
         <HeaderComponent
           title="Dashboard"
           menu={true}
