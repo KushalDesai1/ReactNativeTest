@@ -58,7 +58,7 @@ class NewsDetails extends React.Component {
 
   renderNewsDetails = (detail) => {
     return (
-      <View style={{width: '70%'}}>
+      <View style={{width: '70%'}}> 
         {detail ? (
           <Text style={NewsDetailsStyle.newsInfoText}>{detail}</Text>
         ) : (

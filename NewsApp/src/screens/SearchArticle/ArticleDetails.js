@@ -22,20 +22,24 @@ class ArticleDetails extends React.Component {
   }
 
   componentDidMount() {
-    axios
-      .get(this.state.articleDetails.url)
-      .then((response) => {
-        let responseJson = response.data;
-        this.setState({
-          pdfURL: responseJson.pdf,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        this.state({isLoading: false});
-      });
+    this.getArticleDetails();
   }
+
+  getArticleDetails = async () => {
+    axios
+    .get(this.state.articleDetails.url)
+    .then((response) => {
+      let responseJson = response.data;
+      this.setState({
+        pdfURL: responseJson.pdf,
+        isLoading: false,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      this.state({isLoading: false});
+    });
+  };
 
   handleBackButton = () => {
     this.props.navigation.goBack();
@@ -119,8 +123,13 @@ class ArticleDetails extends React.Component {
 
   renderPDF = () => {
     return (
-      <View style={{justifyContent: 'center', alignItems: 'center', marginBottom: 10}}>
-       
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 10,
+        }}>
+        {this.state.pdfURL && this.state.pdfURL.length > 0 ? (
           <PDFView
             fadeInDuration={250.0}
             style={{width: 300, height: 300}}
@@ -129,7 +138,19 @@ class ArticleDetails extends React.Component {
             onLoad={() => this.setState({isLoading: false, isPDFFound: true})}
             onError={(error) => this.setState({isPDFFound: false})}
           />
-        
+        ) : (
+          <View style={{
+            width: 300, 
+            height: 300, 
+            justifyContent: 'center', 
+            alignItems: 'center'}}>
+            <Text style={{
+              fontFamily: AppFonts.bold,
+              color: AppColor.greyText,
+              fontSize: 20
+            }}>Loading pdf...</Text>
+          </View>
+        )}
       </View>
     );
   };
