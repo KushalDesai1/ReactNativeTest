@@ -9,21 +9,27 @@ export const NetworkContext = React.createContext({isConnected: true});
 class OfflineNotify extends React.PureComponent {
   static contextType = NetworkContext;
 
-  state = {
-    isConnected: true,
-    animationSlideIn: new Animated.Value(-30),
-  };
+  constructor(props){
+    super();
+    this.state = {
+      isConnected: true,
+      animationSlideIn: new Animated.Value(-30),
+    }
+    this.unsubscribe = null
+  }
 
   componentDidMount() {
     //Subscribe to network state updates
-    NetInfo.addEventListener((state) => {
+    this.unsubscribe = NetInfo.addEventListener((state) => {
       this.setState({isConnected: state.isConnected}, () => {
         this.handleConnectivityChange();
       });
     });
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
 
   handleConnectivityChange = () => {
     if (this.state.isConnected) {
