@@ -2,10 +2,7 @@ import React from 'react';
 import {View, Text, SafeAreaView, ScrollView} from 'react-native';
 import AppStyles from '../../utils/AppStyles';
 import HeaderComponent from '../../components/Header/HeaderComponent';
-import axios from 'axios';
 import NewsDetailsStyle from './NewsDetailsStyle';
-import Loader from '../../components/Loader/Loader';
-import AppColor from '../../utils/AppColor';
 
 class NewsDetails extends React.Component {
   constructor(props) {
@@ -13,36 +10,10 @@ class NewsDetails extends React.Component {
     this.state = {
       newsDetailsInfo: props.route.params.newsDetail,
       newsDetailURL: props.route.params.newsDetail.url,
-      isLoading: true,
       newsDetailAPI: {},
       isFound: true,
     };
   }
-
-  componentDidMount() {
-    this.getNewsDetailAPI();
-  }
-
-  getNewsDetailAPI = () => {
-    axios
-      .get(this.state.newsDetailURL)
-      .then((response) => {
-        let responseJson = response.data;
-        if (responseJson) {
-          this.setState({
-            newsDetailAPI: responseJson,
-            isLoading: false,
-            isFound: true,
-          });
-        } else {
-          this.setState({isLoading: false, isFound: false});
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        this.state({isLoading: false, isFound: false});
-      });
-  };
 
   handleBackButton = () => this.props.navigation.goBack();
 
@@ -254,10 +225,8 @@ class NewsDetails extends React.Component {
           handleBackpress={() => this.handleBackButton()}
         />
 
-        <Loader loading={this.state.isLoading} />
-
         <ScrollView>
-          {Object.keys(this.state.newsDetailAPI).length > 0 ? (
+          {Object.keys(this.state.newsDetailsInfo).length > 0 ? (
             <View
               style={{
                 width: '90%',
@@ -276,11 +245,11 @@ class NewsDetails extends React.Component {
               {this.renderLCCNNumber()}
               {this.renderOCLCNumber()}
             </View>
-          ) : !this.state.isFound ? (
+          ) : (
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
               <Text>News Details not found</Text>
             </View>
-          ) : null}
+          )}
         </ScrollView>
       </SafeAreaView>
     );

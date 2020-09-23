@@ -22,8 +22,12 @@ import APIStrings from '../../webservice/APIStrings';
 import moment from 'moment';
 import AppFonts from '../../utils/AppFonts';
 import AppImage from '../../utils/AppImage';
+import {NetworkContext} from '../../components/NoInternet/OfflineNotify';
+import {Root, Toast} from 'native-base';
 
 class SearchArticle extends React.Component {
+  static contextType = NetworkContext;
+
   constructor(props) {
     super();
     this.page = 1;
@@ -38,6 +42,12 @@ class SearchArticle extends React.Component {
 
   handleBackButton = () => {
     this.props.navigation.goBack();
+  };
+
+  checkInternet = () => {
+    if (this.context.isConnected) {
+      this.getArticleList();
+    }
   };
 
   getArticleList = () => {
@@ -60,6 +70,9 @@ class SearchArticle extends React.Component {
       .catch((error) => {
         console.log(error);
         this.state({isLoading: false});
+        Toast.show({
+          text: AppStrings.apiCallError,
+        });
       });
   };
 
@@ -90,7 +103,7 @@ class SearchArticle extends React.Component {
         </View>
 
         <TouchableOpacity
-          onPress={() => this.getArticleList()}
+          onPress={() => this.checkInternet()}
           disabled={this.state.searchValue.length > 0 ? false : true}
           style={
             this.state.searchValue.length > 0
@@ -107,31 +120,33 @@ class SearchArticle extends React.Component {
 
   gotoArticleDetails = (articleInfo) => {
     this.props.navigation.navigate('ArticleDetails', {
-        articleInfo
+      articleInfo,
     });
   };
 
   renderArticleList = (item, index) => {
-      let date = '';
-      let articleDate = ''
-      if (item.date && item.date.length > 0) {
-        date = item.date;
-        const year = date.substring(0, 4);
-        const month = date.substring(4, 6);
-        const day = date.substring(date.length - 2);
-        date = year + '-' + month + '-' + day;
-        articleDate = moment(date).format('MMM DD, YYYY');
-      }
-    
+    let date = '';
+    let articleDate = '';
+    if (item.date && item.date.length > 0) {
+      date = item.date;
+      const year = date.substring(0, 4);
+      const month = date.substring(4, 6);
+      const day = date.substring(date.length - 2);
+      date = year + '-' + month + '-' + day;
+      articleDate = moment(date).format('MMM DD, YYYY');
+    }
+
     return (
-      <TouchableOpacity onPress={() => this.gotoArticleDetails(item)} key={index}>
+      <TouchableOpacity
+        onPress={() => this.gotoArticleDetails(item)}
+        key={index}>
         <View style={SearchArticleStyle.articleView}>
           <View style={{width: '90%'}}>
             <Text
               style={{
                 fontFamily: AppFonts.regular,
                 fontSize: 20,
-                color:AppColor.greyText
+                color: AppColor.greyText,
               }}>
               {item.title} ({item.place_of_publication}), {articleDate}
             </Text>
@@ -156,7 +171,8 @@ class SearchArticle extends React.Component {
   };
 
   onRefresh = () => {
-    this.setState({isRefreshing: true, page: 1, newsList: []}, () => {
+    this.page = 1;
+    this.setState({isRefreshing: true, newsList: []}, () => {
       this.getArticleList();
     });
   };
@@ -186,6 +202,9 @@ class SearchArticle extends React.Component {
       .catch((error) => {
         console.log(error);
         this.state({isRefreshing: false});
+        Toast.show({
+          text: AppStrings.apiCallError,
+        });
       });
   };
 
@@ -238,31 +257,20 @@ class SearchArticle extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={AppStyles.rootViewContainer}>
-        <HeaderComponent
-          title="Search Articles"
-          backEnabled={true}
-          handleBackpress={() => this.handleBackButton()}
-        />
-        {this.renderSearchView()}
+      <Root>
+        <SafeAreaView style={AppStyles.rootViewContainer}>
+          <HeaderComponent
+            title="Search Articles"
+            backEnabled={true}
+            handleBackpress={() => this.handleBackButton()}
+          />
+          {this.renderSearchView()}
 
-        <Loader loading={this.state.isLoading} />
+          <Loader loading={this.state.isLoading} />
 
-        {this.renderFlatlist()}
-
-        {/* {!this.state.isLoading || this.state.articleList.length > 0 ? (
-            <View>
-                {this.renderFlatlist()}
-            </View>
-        ) : (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={SearchArticleStyle.userInstruction}>
-              {AppStrings.userInstruction}
-            </Text>
-          </View>
-        )} */}
-      </SafeAreaView>
+          {this.context.isConnected ? this.renderFlatlist() : null}
+        </SafeAreaView>
+      </Root>
     );
   }
 }

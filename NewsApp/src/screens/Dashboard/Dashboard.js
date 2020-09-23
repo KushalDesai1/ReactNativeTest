@@ -21,17 +21,22 @@ import AppColor from '../../utils/AppColor';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AppFonts from '../../utils/AppFonts';
 import Loader from '../../components/Loader/Loader';
+import {NetworkContext} from '../../components/NoInternet/OfflineNotify';
+import {Root, Toast} from 'native-base';
+import AppStrings from '../../utils/AppStrings';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 class Dashboard extends React.Component {
+  static contextType = NetworkContext;
+
   constructor(props) {
     super();
     this.page = 1;
     this.onEndReachedCalledDuringMomentum = false;
     this.arrayholder = [];
     this.state = {
-      isLoading: true,
+      isLoading: false,
       isRefreshing: false,
       newsList: [],
       searchValue: '',
@@ -39,7 +44,11 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    this.getNewsList();
+    if (this.context.isConnected) {
+      this.setState({isLoading: true}, () => {
+        this.getNewsList();
+      });
+    }
   }
 
   toggleDrawer = () => {
@@ -68,6 +77,9 @@ class Dashboard extends React.Component {
       .catch((error) => {
         console.log(error);
         this.state({isLoading: false});
+        Toast.show({
+          text: AppStrings.apiCallError,
+        });
       });
   };
 
@@ -101,12 +113,16 @@ class Dashboard extends React.Component {
       .catch((error) => {
         console.log(error);
         this.state({isRefreshing: false});
+        Toast.show({
+          text: AppStrings.apiCallError,
+        });
       });
   };
 
   onRefresh = () => {
-    this.setState({isLoading: true, page: 1, newsList: []}, () => {
-      this.getNewsList(this.page);
+    this.page = 1;
+    this.setState({isLoading: true, newsList: []}, () => {
+      this.getNewsList();
     });
   };
 
@@ -200,12 +216,12 @@ class Dashboard extends React.Component {
     this.setState({newsList: newData});
   };
 
-  gotoSearchArticleScreen = () => this.props.navigation.navigate('SearchArticle');
+  gotoSearchArticleScreen = () =>
+    this.props.navigation.navigate('SearchArticle');
 
   renderSearchView = () => {
     return (
-      <View
-        style={DashboardStyles.searchRootView}>
+      <View style={DashboardStyles.searchRootView}>
         <View style={DashboardStyles.searchView}>
           <Icon
             name="search"
@@ -236,7 +252,7 @@ class Dashboard extends React.Component {
     );
   };
 
-  renderSeparator = () => <View style={DashboardStyles.separatorView} />
+  renderSeparator = () => <View style={DashboardStyles.separatorView} />;
 
   renderFooter = () => {
     return (
@@ -255,17 +271,19 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={AppStyles.rootViewContainer}>
-        <HeaderComponent
-          title="Dashboard"
-          menu={true}
-          handleDrawer={() => this.toggleDrawer()}
-        />
+      <Root>
+        <SafeAreaView style={AppStyles.rootViewContainer}>
+          <HeaderComponent
+            title="Dashboard"
+            menu={true}
+            handleDrawer={() => this.toggleDrawer()}
+          />
 
-        {this.renderSearchView()}
-        <Loader loading={this.state.isLoading} />
-        {this.renderFlatlist()}
-      </SafeAreaView>
+          {this.renderSearchView()}
+          <Loader loading={this.state.isLoading} />
+          {this.context.isConnected ? this.renderFlatlist() : null}
+        </SafeAreaView>
+      </Root>
     );
   }
 }
