@@ -12,8 +12,6 @@ class OfflineNotify extends React.PureComponent {
   state = {
     isConnected: true,
     animationSlideIn: new Animated.Value(-30),
-    animationSlideOut: new Animated.Value(0),
-    onlineFlag: 0,
   };
 
   componentDidMount() {
