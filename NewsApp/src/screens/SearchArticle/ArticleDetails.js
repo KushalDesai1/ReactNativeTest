@@ -110,7 +110,7 @@ class ArticleDetails extends React.Component {
 
   renderPublicationDate = () => {
     return (
-      <View style={{flexDirection: 'row', marginTop: 10}}>
+      <View style={{flexDirection: 'row', marginVertical: 10}}>
         {this.renderTitleText('Date of publication')}
         {this.renderArticleDetails(
           this.state.articleDetails.start_year +
@@ -173,17 +173,16 @@ class ArticleDetails extends React.Component {
             justifyContent: 'center',
             alignItems: 'center',
             width: '95%',
+            flex: 1,
             alignSelf: 'center',
-            marginTop: 10
+            marginTop: 10,
           }}>
           <ScrollView>
-            <View>
               {this.renderPDF()}
               {this.renderTitle()}
               {this.renderPublicationPlace()}
               {this.renderPublisher()}
               {this.renderPublicationDate()}
-            </View>
           </ScrollView>
         </View>
       </SafeAreaView>

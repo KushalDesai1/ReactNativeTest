@@ -209,7 +209,7 @@ class NewsDetails extends React.Component {
 
   renderOCLCNumber = () => {
     return (
-      <View style={{flexDirection: 'row', marginTop: 10}}>
+      <View style={{flexDirection: 'row', marginVertical: 10}}>
         {this.renderTitleText('OCLC')}
         {this.renderNewsDetails(this.state.newsDetailsInfo.oclc)}
       </View>
